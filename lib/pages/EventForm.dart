@@ -25,12 +25,12 @@ class _EventPageState extends State<EventPage> {
     _loadCategories();
   }
 
-  // ---------------- LOAD CATEGORY ----------------
   Future<void> _loadCategories() async {
     final data = await _client.from('catagory').select('id, Name');
     categories = List<Map<String, dynamic>>.from(data);
     setState(() {});
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -279,14 +279,14 @@ ElevatedButton(
       'description': _descriptionCtrl.text,
       'location': _locationCtrl.text,
       'event_data': _eventDateCtrl.text,
-      'catagory_id': int.parse(selectedCategoryId!), 
+      'catagory_id': selectedCategoryId,
     }).eq('id', event['id']);
 
     Navigator.pop(context);
     setState(() {});
         ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Event deletd successfully'),
+        content: Text('Event Updated successfully'),
         backgroundColor: Color.fromARGB(255, 3, 137, 246),
       ),
     );

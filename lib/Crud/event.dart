@@ -37,6 +37,7 @@ class eventdb {
       'event_data': eventDate,
       'catagory_id': catagoryId
     }).eq('id', eventId);
+    
   }
 
   Future<void> deletcatagory(dynamic eventId) async {

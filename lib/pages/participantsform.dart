@@ -27,14 +27,14 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     _loadEvents();
   }
 
-  // ---------------- LOAD EVENTS ----------------
+
   Future<void> _loadEvents() async {
     final data = await _client.from('events').select('id, name,event_data');
     events = List<Map<String, dynamic>>.from(data);
     setState(() {});
   }
 
-  // ---------------- FETCH PARTICIPANTS ----------------
+
   Future<List<Map<String, dynamic>>> _fetchParticipants() async {
     final data = await _client.from('participants').select('id, name, email, event_id');
     return List<Map<String, dynamic>>.from(data);
@@ -202,7 +202,6 @@ class _ParticipantsPageState extends State<ParticipantsPage> {
     );
   }
 
-  // ---------------- FORM ----------------
   Widget _form() {
     return SingleChildScrollView(
       child: Column(

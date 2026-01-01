@@ -82,11 +82,11 @@ class _Sign_UpState extends State<Sign_Up> {
             letterSpacing: 5
           ),
           ),
-          SizedBox(height: 30),
+          SizedBox(height: 5),
 
           Expanded(child: Container(
             
-            padding: EdgeInsets.all(100),
+            padding: EdgeInsets.only(top: 100,left: 30,right: 30),
           
               width: double.infinity,
 
@@ -163,24 +163,24 @@ class _Sign_UpState extends State<Sign_Up> {
                      elevation: 7,
                      foregroundColor:  Color.fromARGB(255, 255, 255, 255),
                      shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(50),
+                       borderRadius: BorderRadius.circular(25),
                      
                      ),
-                     minimumSize: Size(200, 50),
+                     minimumSize: Size(15, 20),
                               
                               
                    ),
                     
                    child: Text("Sign Up",style: TextStyle(
                      color: const Color.fromARGB(255, 255, 255, 255),
-                     fontSize: 20,
+                     fontSize: 15,
                               
                    ),
                    ),                 
                  ),
-                SizedBox(height: 50),
-                Padding(padding:EdgeInsets.only(top: 30),
-                child: Row(
+                SizedBox(height: 10),
+                Padding(padding:EdgeInsets.only(top: 10),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   
 
@@ -198,9 +198,13 @@ class _Sign_UpState extends State<Sign_Up> {
 
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(129, 163, 198, 243)
+                      backgroundColor: const Color.fromARGB(129, 163, 198, 243),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                      minimumSize: Size(10, 10),
+                      
                     ),
-                    child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold,
+                    
+                    child: Text("Login",style: TextStyle(
+                    
 
                     
                     ),

@@ -81,7 +81,7 @@ class _Sign_inState extends State<Sign_in> {
 
           Expanded(child: Container(
             
-            padding: EdgeInsets.all(100),
+            padding: EdgeInsets.only(top: 100,left: 30,right: 30),
           
               width: double.infinity,
 
@@ -127,7 +127,7 @@ class _Sign_inState extends State<Sign_in> {
                    ),
                    obscureText: true,
                  ),
-                 SizedBox(height: 25),
+                 SizedBox(height: 20),
                  ElevatedButton(
                  
                    
@@ -157,7 +157,7 @@ class _Sign_inState extends State<Sign_in> {
                  ),
                 SizedBox(height: 50),
                 Padding(padding:EdgeInsets.only(top: 30),
-                child: Row(
+                child:Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   
 
@@ -204,9 +204,6 @@ class _Sign_inState extends State<Sign_in> {
                               )
               
 
-              
-              
-              
             
             ),
           )
