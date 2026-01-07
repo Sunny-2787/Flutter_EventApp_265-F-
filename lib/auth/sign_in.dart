@@ -1,11 +1,7 @@
-
 import 'package:event_management/Auth_Servics/supabase.dart';
 import 'package:event_management/auth/sign_up.dart';
-// import 'package:event_management/pages/catagoryform.dart';
 import 'package:event_management/pages/dashboard.dart';
 import 'package:flutter/material.dart';
-
-
 
 class Sign_in extends StatefulWidget {
   const Sign_in({super.key});
@@ -15,233 +11,187 @@ class Sign_in extends StatefulWidget {
 }
 
 class _Sign_inState extends State<Sign_in> {
-    final _emailController = TextEditingController();
-    final _passwordcontroller = TextEditingController();
-     final authservice = Authservice();
-     void login()async{
-      final email  = _emailController.text;
-      final password  = _passwordcontroller.text;
+  final _emailController = TextEditingController();
+  final _passwordcontroller = TextEditingController();
+  final authservice = Authservice();
 
-      try{
-        await authservice.signinwithemailandpassword(email, password);
-        if(mounted){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login Successfull")));
-        }
-        Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const Dashboard()),
-        );
-        
-
-      }catch(e){
-        if(mounted){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error : $e")));
-        }
-
-      }
-     
-     }
   @override
 
-  Widget build(BuildContext context) {
+  void login() async {
+    final email = _emailController.text;
+    final password = _passwordcontroller.text;
 
+    try {
+      await authservice.signinwithemailandpassword(email, password);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Login Successful")),
+        );
+      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const Dashboard()),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error : $e")),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          colors: [
-          Color.fromARGB(255, 255, 60, 0),
-          Color.fromARGB(255, 226, 133, 52),
-          Color.fromARGB(209, 228, 105, 12)        ]),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xff6A11CB),
+              Color(0xff2575FC),
+            ],
+          ),
         ),
-        padding: EdgeInsets.only(top: 50),
-        child: Column(
-          
-          crossAxisAlignment: CrossAxisAlignment.start,
-          
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-          children: [
             
-              Text("Login" , style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 7,
-              color: Colors.white
-            ),
-            ),
-
-            Text("Welcome Back" , style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            letterSpacing: 5
-          ),
-          ),
-          SizedBox(height: 30),
-
-          Expanded(child: Container(
-            
-            padding: EdgeInsets.only(top: 100,left: 30,right: 30),
-          
-              width: double.infinity,
-
-              decoration:
-               BoxDecoration(            color:  Color.fromARGB(255, 255, 255, 255),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight: Radius.circular(50)),
+              const Column(
+                children: [
+                  Text(
+                    "Welcome Back",
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "Sign in to continue",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
-              
-              child: Column(
-               
-                              
-               children: [
-                 
-                 TextField(
-                  controller: _emailController,
-                   
-                   
-                   decoration: InputDecoration(
+
+              const SizedBox(height: 40),
+
+          
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+
+                    
+                      TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
                      
-                     labelText: "Email",
-                     hintText: "Enter Your Email",
-                     prefixIcon: Icon(Icons.email),
-                     border: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
-                              
-                     ),
-                   ),
-                 ),
-                 SizedBox(height: 20),
-                 TextField(
-                  controller: _passwordcontroller,
-                              
-                   decoration: InputDecoration(
-                       
+                      TextField(
+                        controller: _passwordcontroller,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 55,
+                        child: ElevatedButton(
+                          onPressed: login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff2575FC),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            elevation: 6,
+                          ),
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
                      
-                     labelText: "Password",
-                     hintText: "Enter Your Password",
-                     prefixIcon: Icon(Icons.password),
-                     border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(10),
-                              
-                     ),
-                   ),
-                   obscureText: true,
-                 ),
-                 SizedBox(height: 20),
-                 ElevatedButton(
-                 
-                   
-                   onPressed: () {
-                      login();
-                              
-                   },
-                   style:ElevatedButton.styleFrom(
-                     backgroundColor: const Color.fromARGB(172, 50, 177, 54),
-                     elevation: 7,
-                     foregroundColor:  Color.fromARGB(255, 255, 255, 255),
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(50),
-                     
-                     ),
-                     minimumSize: Size(20, 20),
-                              
-                              
-                   ),
-                    
-                   child: Text("Login",style: TextStyle(
-                     color: Colors.black,
-                     fontSize: 20,
-                              
-                   ),
-                   ),                 
-                 ),
-                SizedBox(height: 50),
-                Padding(padding:EdgeInsets.only(top: 30),
-                child:Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  
-
-
-                  children: [
-                    
-                    Text("Don't have an account?", style: TextStyle(
-                    color: Colors.red,
-                    
-                    ),
-                    ),
-                    ElevatedButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Sign_Up(),));     
-
-
-                    },
-                    style: ElevatedButton.styleFrom(
-                       minimumSize: Size(10, 10),
-                      
-                      backgroundColor: const Color.fromARGB(255, 247, 243, 243)
-                    ),
-                    
-                    child: Text("Sign Up",style: TextStyle(
-                      fontSize: 10
-                      
-
-                    
-                    ),
-                    
-                    ),
-                    ),
-
-                    
-                   
-                   
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account? "),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const Sign_Up(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                color: Color(0xff2575FC),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                
-                
-                )              
-                              
-               ],
-                              
-                              )
-              
-
-            
-            ),
-          )
-          
-
-          
-          
-
-    
-
-
-          
-
-          
-
-          ],
-          
+              ),
+            ],
+          ),
         ),
-        
       ),
-
     );
-        
-
-   
-
-
-
-      
-
-      
-        
-  
-      
-
   }
 }
-
-
-
-            // Text("Sign In",textAlign:TextAlign.center,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: const Color.fromARGB(255, 255, 255, 255)),),

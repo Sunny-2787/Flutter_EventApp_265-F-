@@ -12,248 +12,220 @@ class Sign_Up extends StatefulWidget {
 
 class _Sign_UpState extends State<Sign_Up> {
   final _emailController = TextEditingController();
-    final _passwordcontroller = TextEditingController();
-    final _Confirmpasswordcontroller  = TextEditingController();
-    final authservice =Authservice();
-    void signup()async{
-      final email = _emailController.text;
-      final password = _passwordcontroller.text;
-      final confirmpass = _Confirmpasswordcontroller.text;
-      if(password!=confirmpass){
-        
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password Not match")));
-        return;
+  final _passwordcontroller = TextEditingController();
+  final _confirmpasswordcontroller = TextEditingController();
+  final authservice = Authservice();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordcontroller.dispose();
+    _confirmpasswordcontroller.dispose();
+    super.dispose();
+  }
+
+  void signup() async {
+    final email = _emailController.text;
+    final password = _passwordcontroller.text;
+    final confirmPass = _confirmpasswordcontroller.text;
+
+    if (password != confirmPass) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    try {
+      await authservice.signupwithemailandpssword(email, password);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Signup Successful")),
+        );
       }
-      try{
-        await authservice.signupwithemailandpssword(email, password);
-        if (mounted){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("SignUp succsesfull")));
-        
-        }
-        Navigator.pushReplacement(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const Dashboard()),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $e")),
         );
-        
-
       }
-
-      catch(e){
-        if(mounted){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: $e")));
-
-        }
-
-      }
-
     }
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-     body: Container(
+      body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          colors: [
-          Color.fromARGB(255, 60, 255, 0),
-          Color.fromARGB(255, 116, 226, 52),
-          Color.fromARGB(209, 12, 228, 59)        ]),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xff11998E),
+              Color(0xff38EF7D),
+            ],
+          ),
         ),
-        padding: EdgeInsets.only(top: 50),
-        child: Column(
-          
-          crossAxisAlignment: CrossAxisAlignment.start,
-          
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 40),
 
-          children: [
-            
-              Text("Sign Up" , style: TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 7,
-              color: Colors.white
-            ),
-            ),
-
-            Text("First Create Your Account" , style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            letterSpacing: 5
-          ),
-          ),
-          SizedBox(height: 5),
-
-          Expanded(child: Container(
-            
-            padding: EdgeInsets.only(top: 100,left: 30,right: 30),
-          
-              width: double.infinity,
-
-              decoration:
-               BoxDecoration(            color:  Color.fromARGB(255, 255, 255, 255),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight: Radius.circular(50)),
+              
+              const Column(
+                children: [
+                  Text(
+                    "Create Account",
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "Sign up to get started",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
               ),
-              
-              child: Column(
+
+              const SizedBox(height: 30),
+
+             
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+
                
-                              
-               children: [
-                 
-                 TextField(
-                  controller: _emailController,
-                   
-                   
-                   decoration: InputDecoration(
-                    
-                     
-                     labelText: "Email",
-                     hintText: "Enter Your Email",
-                     prefixIcon: Icon(Icons.email),
-                     border: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
-                              
-                     ),
-                   ),
-                 ),
-                 SizedBox(height: 20),
-                 TextField(
-                  controller: _passwordcontroller,
-                   
-                   
-                   decoration: InputDecoration(
-                     
-                     labelText: "Password",
-                     hintText: "Enter Your Password",
-                     prefixIcon: Icon(Icons.password),
-                     border: OutlineInputBorder(
-                       borderRadius: BorderRadius.circular(10),
-                              
-                     ),
-                   ),
-                 ),
-                 SizedBox(height: 20),
-                 TextField(
-                  controller: _Confirmpasswordcontroller,
-                              
-                   decoration: InputDecoration(
-                       
-                     
-                     labelText: "Confirm Password",
-                     hintText: "Enter Your same Password",
-                     prefixIcon: Icon(Icons.password),
-                     border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(10),
-                              
-                     ),
-                   ),
-                   obscureText: true,
-                 ),
-                 SizedBox(height: 25),
-                 ElevatedButton(
-                 
-                   
-                   onPressed: () {
-                      signup();
-                    
-                              
-                   },
-                   style:ElevatedButton.styleFrom(
-                     backgroundColor: const Color.fromARGB(255, 0, 43, 236),
-                     elevation: 7,
-                     foregroundColor:  Color.fromARGB(255, 255, 255, 255),
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(25),
-                     
-                     ),
-                     minimumSize: Size(15, 20),
-                              
-                              
-                   ),
-                    
-                   child: Text("Sign Up",style: TextStyle(
-                     color: const Color.fromARGB(255, 255, 255, 255),
-                     fontSize: 15,
-                              
-                   ),
-                   ),                 
-                 ),
-                SizedBox(height: 10),
-                Padding(padding:EdgeInsets.only(top: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  
+                      TextField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: "Email",
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
 
+                      const SizedBox(height: 20),
 
-                  children: [
                     
-                    Text("Already have an account?", style: TextStyle(
-                    color: Colors.red,
-                    
-                    ),
-                    ),
-                    ElevatedButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => Sign_in(),));     
+                      TextField(
+                        controller: _passwordcontroller,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Password",
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
 
+                      const SizedBox(height: 20),
 
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(129, 163, 198, 243),shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                      minimumSize: Size(10, 10),
                       
-                    ),
-                    
-                    child: Text("Login",style: TextStyle(
-                    
+                      TextField(
+                        controller: _confirmpasswordcontroller,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: "Confirm Password",
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          filled: true,
+                          fillColor: Colors.grey.shade100,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
 
-                    
-                    ),
-                    ),
-                    ),
+                      const SizedBox(height: 30),
 
-                    
-                   
-                   
-                  ],
+                
+                      SizedBox(
+                        width: double.infinity,
+                        height: 55,
+                        child: ElevatedButton(
+                          onPressed: signup,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff11998E),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            elevation: 6,
+                          ),
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 25),
+
+               
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Already have an account? "),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const Sign_in(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                color: Color(0xff11998E),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                
-                
-                )
-
-                 
-                              
-                 
-                              
-                              
-               ],
-                              
-                              )
-              
-
-              
-              
-              
-            
-            ),
-          )
-          
-
-          
-          
-
-    
-
-
-          
-
-          
-
-          ],
-          
+              ),
+            ],
+          ),
         ),
-        
       ),
-
     );
   }
 }
